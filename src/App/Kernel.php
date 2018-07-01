@@ -27,7 +27,7 @@ class Kernel extends BaseKernel
 
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/../../config/parameters.yaml');
+        $loader->load(__DIR__.'/../../config/config.yaml');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)

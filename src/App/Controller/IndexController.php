@@ -14,17 +14,7 @@ class IndexController extends Controller
 
         $uuids = [];
         for ($i = 0; $i < $bulk; $i++) {
-            switch($type) {
-                case 'uuid1':
-                    $uuid = $uuidRepository->getUuid1();
-                    break;
-                case 'uuid4':
-                default:
-                    $uuid = $uuidRepository->getUuid4();
-                    break;
-
-            }
-            $uuids[] = $uuid;
+            $uuids[] = $uuidRepository->getUuid($type);
         }
 
         return $this->render('index.html.twig', [
