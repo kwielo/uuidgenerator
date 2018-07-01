@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{ type|capitalize }} generator</title>
+        <link rel="stylesheet" type="text/css" href="/media/spectre.min.css">
+        <link rel="stylesheet" type="text/css" href="/media/spectre-exp.min.css">
+        <link rel="stylesheet" type="text/css" href="/media/spectre-icons.min.css">
+
+    </head>
+    <body>
+        <div class="container grid-xs" style="margin-bottom: 50px;">
+            <div class="columns m-2">
+                <div class="col-12">
+                    <h2 class="text-primary centered d-inline text-center"><a href="/">{{ type|capitalize }} generator</a></h2>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="col-12">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select class="form-select type-input">
+                                {% for uuid_type in uuid_types %}
+                                    <option value="{{uuid_type}}" {% if uuid_type == type %}selected="selected"{% endif %}>{{ uuid_type }}</option>
+                                {% endfor %}
+                            </select>
+                            <input style="margin-top:0.4em!important;" class="slider tooltip bulk-input px-1" type="range" min="1" max="20" value="{{ bulk }}" 
+                                oninput="this.setAttribute('value', this.value);">
+                            <button class="btn bulk-submit"><i class="icon icon-refresh"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns mt-2">
+                <div class="col-12">
+                    <div class="form-group">
+                        {% for uuid in uuids %}
+                        <div class="input-group uuid-line mt-2">
+                            <span class="input-group-addon"># {{ loop.index }}</span>
+                            <input class="form-input uuid-input text-center" type="text" value="{{ uuid }}" />
+                            <button class="btn btn-primary input-group-btn uuid-copy"><i class="icon icon-plus"></i></button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer fixed d-block text-center p-1" style="bottom: 0; width: 100%; font-size: 0.8em; background-color: #fff; z-index: 100;">
+            coded with <span class="text-error">&hearts;</span> by <a href="https://wielo.co">wielo.co</a>
+        </div>
+    </body>
+    <script type="text/javascript">
+        const lines = document.querySelectorAll('.uuid-line');
+        lines.forEach(function(line) {
+            line.querySelector('.uuid-input').addEventListener('click', function() {
+                line.querySelector('.uuid-input').select();
+            });
+            line.querySelector('.uuid-copy').addEventListener('click', function() {
+                line.querySelector('.uuid-input').select();
+                document.execCommand('copy');
+
+                const classList = line.querySelector('.uuid-copy').classList;
+                classList.remove('btn-primary')
+                classList.add('btn-success');
+                const iconClassList = line.querySelector('.icon').classList;
+                iconClassList.remove('icon-plus');
+                iconClassList.add('icon-check');
+            })
+        })
+        document.querySelector('.bulk-submit').addEventListener('click', function() {
+            const bulk = document.querySelector('.bulk-input').value;
+            const type = document.querySelector('.type-input').value;
+            const l = window.location;
+            const newUrl = l.protocol + '//' + l.host + '/' + bulk + '/' + type;
+            window.location.assign(newUrl);
+
+        })
+    </script>
+</html>

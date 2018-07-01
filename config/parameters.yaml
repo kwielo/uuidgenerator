@@ -1,0 +1,4 @@
+framework:
+    secret: a5Cu9jP6TksGJSLmyId5EX9pScdVSn7N
+    templating:
+        engines: ['twig']
