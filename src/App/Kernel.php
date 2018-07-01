@@ -17,7 +17,7 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    public function registerBundles()
+    public function registerBundles(): array
     {
         return [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -25,12 +25,12 @@ class Kernel extends BaseKernel
         ];
     }
 
-    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
+    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/../../config/config.yaml');
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes)
+    protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $routes->add('/', '\App\Controller\IndexController:index');
         $routes->addRoute(new Route(
@@ -51,13 +51,13 @@ class Kernel extends BaseKernel
     }
 
     // optional, to use the standard Symfony cache directory
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return __DIR__.'/../var/cache/'.$this->getEnvironment();
     }
 
     // optional, to use the standard Symfony logs directory
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return __DIR__.'/../var/log';
     }

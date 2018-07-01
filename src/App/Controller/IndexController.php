@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \Symfony\Component\Routing\Annotation\Route;
+use \Symfony\Component\HttpFoundation\Response;
 use \App\Repository\UuidRepository;
 
 class IndexController extends Controller
 {
-    public function index($bulk = 1, $type = 'uuid4')
+    public function index($bulk = 1, $type = 'uuid4'): Response
     {
         $uuidRepository = new UuidRepository();
 
