@@ -43,4 +43,9 @@ class UuidRepository
 
         }
     }
+
+    public function getNil()
+    {
+        return Uuid::NIL;
+    }
 }

@@ -23,6 +23,7 @@ class IndexController extends Controller
             'type' => $type,
             'bulk' => $bulk,
             'uuids' => $uuids,
+            'nil' => $uuidRepository->getNil(),
         ]);
     }
 }
