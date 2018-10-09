@@ -32,6 +32,14 @@ class Kernel extends BaseKernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
+        $routes->add('/api', '\App\Controller\ApiController:one');
+        $routes->addRoute(new Route(
+            '/api/{type}',
+            [
+                'type' => 'uuid4',
+                '_controller' => '\App\Controller\ApiController:one',
+            ]
+        ));
         $routes->add('/', '\App\Controller\IndexController:index');
         $routes->addRoute(new Route(
             '/{bulk}',
