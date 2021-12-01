@@ -1,5 +1,5 @@
 {
-    "name": "wielo/uuidgenerator",
+    "name": "kwielo/uuidgenerator",
     "type": "project",
     "require": {
         "ramsey/uuid": "^3.0",
