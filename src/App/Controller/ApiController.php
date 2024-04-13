@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use \Symfony\Component\Routing\Annotation\Route;
-use \Symfony\Component\HttpFoundation\Response;
-use \App\Repository\UuidRepository;
+use App\Repository\UuidRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
-class ApiController extends Controller
+class ApiController extends AbstractController
 {
-    public function one($type = 'uuid4'): Response
+    public function one($type = "uuid4"): Response
     {
         $uuidRepository = new UuidRepository();
 

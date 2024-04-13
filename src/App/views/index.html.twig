@@ -2,6 +2,7 @@
     <head>
         <meta charset="utf-8">
         <title>{{ type|capitalize }} generator</title>
+        <link rel="shortcut icon" href="/media/favicon.png" />
         <link rel="stylesheet" type="text/css" href="/media/spectre.min.css">
         <link rel="stylesheet" type="text/css" href="/media/spectre-exp.min.css">
         <link rel="stylesheet" type="text/css" href="/media/spectre-icons.min.css">
@@ -10,12 +11,12 @@
     <body>
         <div class="container grid-xs" style="margin-bottom: 50px;">
             <div class="columns m-2">
-                <div class="col-12">
+                <div class="column col-12">
                     <h2 class="text-primary centered d-inline text-center"><a href="/">{{ type|capitalize }} generator</a></h2>
                 </div>
             </div>
             <div class="columns">
-                <div class="col-12">
+                <div class="column col-12">
                     <div class="form-group">
                         <div class="input-group">
                             <select class="form-select type-input">
@@ -23,7 +24,7 @@
                                     <option value="{{uuid_type}}" {% if uuid_type == type %}selected="selected"{% endif %}>{{ uuid_type }}</option>
                                 {% endfor %}
                             </select>
-                            <input style="margin-top:0.4em!important;" class="slider tooltip bulk-input px-1" type="range" min="1" max="15" value="{{ bulk }}" 
+                            <input style="margin-top:0.4em!important;" class="slider tooltip bulk-input px-1" type="range" min="1" max="15" value="{{ bulk }}"
                                 oninput="this.setAttribute('value', this.value);">
                             <button class="btn bulk-submit"><i class="icon icon-refresh"></i></button>
                         </div>
@@ -32,7 +33,7 @@
             </div>
 
             <div class="columns mt-2">
-                <div class="col-12">
+                <div class="column col-12">
                     <div class="form-group">
                         <div class="input-group uuid-line mt-2">
                             <span class="input-group-addon"># 0</span>
