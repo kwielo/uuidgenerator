@@ -1,0 +1,12 @@
+version: "3"
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8000:80"
+        environment:
+            - WEBROOT=/var/www/html/public
+        volumes:
+            - ./:/var/www/html

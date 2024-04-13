@@ -1,0 +1,4 @@
+twig:
+    exception_controller: null
+    paths:
+        "%kernel.project_dir%/src/App/views": ~
