@@ -2,16 +2,19 @@
 
 namespace App\Repository;
 
-use \Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use \Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class UuidRepository 
+class UuidRepository
 {
     private const UUID_TYPES = [
         'uuid1',
         'uuid4',
     ];
 
+    /**
+     * @return string[]
+     */
     public function getTypes(): array
     {
         return self::UUID_TYPES;
@@ -29,22 +32,16 @@ class UuidRepository
 
     public function getUuid(string $type): string
     {
-        if (!in_array($type, self::UUID_TYPES)) {
-            throw new BadRequestHttpException('Invalid parameter "type" for UuidRepository.getUuid');
-        }
-
-        switch($type) {
-            case 'uuid1':
-                return $this->getUuid1();
-                break;
-            case 'uuid4':
-                return $this->getUuid4();
-                break;
-
-        }
+        return match ($type) {
+            'uuid1' => $this->getUuid1(),
+            'uuid4' => $this->getUuid4(),
+            default => throw new BadRequestHttpException(
+                sprintf('Invalid parameter "type" "%s" for UuidRepository::getUuid', $type)
+            ),
+        };
     }
 
-    public function getNil()
+    public function getNil(): string
     {
         return Uuid::NIL;
     }

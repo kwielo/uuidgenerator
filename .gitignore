@@ -1,3 +1,6 @@
 .zed
-vendor
-src/var
+/vendor/
+/var/
+/.env.local
+/.env.local.php
+/.env.*.local

@@ -1,4 +1,2 @@
 twig:
-    exception_controller: null
-    paths:
-        "%kernel.project_dir%/src/App/views": ~
+    default_path: '%kernel.project_dir%/src/App/views'

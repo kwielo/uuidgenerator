@@ -1,18 +1,41 @@
-FROM richarvey/nginx-php-fpm:latest
+# syntax=docker/dockerfile:1
+
+# --- Stage 1: install PHP dependencies with Composer ---
+FROM composer:2 AS vendor
+
+WORKDIR /app
+COPY . .
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader \
+    --no-progress
+
+# --- Stage 2: runtime image (php-fpm) ---
+FROM php:8.3-fpm-alpine AS app
+
+# Install the extensions Symfony/ramsey-uuid benefit from.
+RUN apk add --no-cache icu-libs \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev \
+    && docker-php-ext-install intl opcache \
+    && apk del .build-deps
 
 WORKDIR /var/www/html
 
-COPY composer.lock .
-COPY composer.json .
-COPY config config/
-COPY public public/
-COPY src src/
-# COPY nginx-site.conf conf/nginx/
-#COPY vendor vendor/
+COPY --from=vendor /app /var/www/html
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-RUN php composer-setup.php
-RUN php -r "unlink('composer-setup.php');"
+ENV APP_ENV=prod \
+    APP_DEBUG=0
 
-RUN php composer.phar install -o
+RUN mkdir -p var \
+    && chown -R www-data:www-data var
+
+USER www-data
+
+EXPOSE 9000
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
+    CMD php -r "exit(extension_loaded('intl') ? 0 : 1);"
+
+CMD ["php-fpm"]

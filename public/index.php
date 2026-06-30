@@ -1,15 +1,9 @@
 <?php
 
-use Symfony\Component\HttpFoundation\Request;
+use App\Kernel;
 
-require __DIR__.'/../src/App/Kernel.php';
+require_once dirname(__DIR__) . '/vendor/autoload_runtime.php';
 
-if (false !== strpos($_SERVER['HTTP_HOST'], 'localhost')) {
-    $kernel = new \App\Kernel('dev', true);
-} else {
-    $kernel = new \App\Kernel('prod', false);
-}
-$request = Request::createFromGlobals();
-$response = $kernel->handle($request);
-$response->send();
-$kernel->terminate($request, $response);
+return function (array $context) {
+    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+};
