@@ -1,6 +1,8 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ type|capitalize }} generator</title>
         <link rel="shortcut icon" href="/media/favicon.png" />
         <link rel="stylesheet" type="text/css" href="/media/spectre.min.css">
@@ -54,7 +56,6 @@
         <div class="footer fixed d-block text-center p-1" style="bottom: 0; width: 100%; font-size: 0.8em; background-color: #fff; z-index: 100;">
             coded with <span class="text-error">&hearts;</span> by <a href="https://wielo.co">wielo.co</a>
         </div>
-    </body>
     <script type="text/javascript">
         const lines = document.querySelectorAll('.uuid-line');
         lines.forEach(function(line) {
@@ -62,8 +63,13 @@
                 line.querySelector('.uuid-input').select();
             });
             line.querySelector('.uuid-copy').addEventListener('click', function() {
-                line.querySelector('.uuid-input').select();
-                document.execCommand('copy');
+                const input = line.querySelector('.uuid-input');
+                input.select();
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(input.value);
+                } else {
+                    document.execCommand('copy');
+                }
 
                 const classList = line.querySelector('.uuid-copy').classList;
                 classList.remove('btn-primary')
@@ -97,4 +103,5 @@
       })();
     </script>
     <!-- End Matomo Code -->
+    </body>
 </html>

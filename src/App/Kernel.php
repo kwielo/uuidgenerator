@@ -2,66 +2,26 @@
 
 namespace App;
 
+use App\Controller\ApiController;
+use App\Controller\IndexController;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
-use Symfony\Component\Routing\Route;
-
-require __DIR__ . "/../../vendor/autoload.php";
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    public function registerBundles(): array
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
-        return [new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(), new \Symfony\Bundle\TwigBundle\TwigBundle()];
-    }
+        $routes->add('api_one', '/api/{type}')
+            ->controller([ApiController::class, 'one'])
+            ->defaults(['type' => 'uuid4'])
+            ->requirements(['type' => '[a-z0-9]+']);
 
-    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
-    {
-        $loader->load(__DIR__ . "/../../config/packages/framework.yaml");
-        $loader->load(__DIR__ . "/../../config/packages/twig.yaml");
-    }
-
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
-    {
-        $routes->add("/api", "\App\Controller\ApiController:one");
-        $routes->addRoute(
-            new Route("/api/{type}", [
-                "type" => "uuid4",
-                "_controller" => "\App\Controller\ApiController:one",
-            ])
-        );
-        $routes->add("/", "\App\Controller\IndexController:index");
-        $routes->addRoute(
-            new Route("/{bulk}", [
-                "bulk" => "1",
-                "_controller" => "\App\Controller\IndexController:index",
-            ])
-        );
-        $routes->addRoute(
-            new Route("/{bulk}/{type}", [
-                "bulk" => "1",
-                "type" => "uuid4",
-                "_controller" => "\App\Controller\IndexController:index",
-            ])
-        );
-    }
-
-    // optional, to use the standard Symfony cache directory
-    public function getCacheDir(): string
-    {
-        return __DIR__ . "/../var/cache/" . $this->getEnvironment();
-    }
-
-    // optional, to use the standard Symfony logs directory
-    public function getLogDir(): string
-    {
-        return __DIR__ . "/../var/log";
+        $routes->add('index', '/{bulk}/{type}')
+            ->controller([IndexController::class, 'index'])
+            ->defaults(['bulk' => 1, 'type' => 'uuid4'])
+            ->requirements(['bulk' => '\d+', 'type' => '[a-z0-9]+']);
     }
 }

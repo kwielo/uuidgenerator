@@ -8,10 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiController extends AbstractController
 {
-    public function one($type = "uuid4"): Response
+    public function __construct(private readonly UuidRepository $uuidRepository)
     {
-        $uuidRepository = new UuidRepository();
+    }
 
-        return new Response($uuidRepository->getUuid($type));
+    public function one(string $type = 'uuid4'): Response
+    {
+        return new Response($this->uuidRepository->getUuid($type));
     }
 }

@@ -1,2 +1,6 @@
 framework:
-    secret: a5Cu9jP6TksGJSLmyId5EX9pScdVSn7N
+    secret: '%env(APP_SECRET)%'
+    http_method_override: false
+    handle_all_throwables: true
+    php_errors:
+        log: true
