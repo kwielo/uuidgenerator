@@ -98,13 +98,11 @@
 
             const onCopySuccess = function () {
                 copyButton.classList.add('copied');
+                line.classList.add('uuid-line--copied');
                 if (feedback) {
                     feedback.textContent = 'Copied ' + input.value + ' to clipboard.';
                 }
                 showToast('Copied to clipboard');
-                window.setTimeout(function () {
-                    copyButton.classList.remove('copied');
-                }, 1500);
             };
 
             if (navigator.clipboard && navigator.clipboard.writeText) {

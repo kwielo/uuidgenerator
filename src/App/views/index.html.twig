@@ -69,6 +69,7 @@
                 <div class="uuid-line">
                     <span class="uuid-index" aria-hidden="true">#0</span>
                     <input class="uuid-input" type="text" value="{{ nil }}" readonly aria-label="Nil UUID" />
+                    <span class="badge badge--success uuid-copy-badge" aria-hidden="true">Copied</span>
                     <button type="button" class="uuid-copy" aria-label="Copy nil UUID to clipboard">
                         <svg class="icon-copy" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M9 9h10v10H9zM6 15H4V4h10v2"/></svg>
                         <svg class="icon-check" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 12l5 5L20 6"/></svg>
@@ -78,6 +79,7 @@
                     <div class="uuid-line">
                         <span class="uuid-index" aria-hidden="true">#{{ loop.index }}</span>
                         <input class="uuid-input" type="text" value="{{ uuid }}" readonly aria-label="Generated UUID {{ loop.index }}" />
+                        <span class="badge badge--success uuid-copy-badge" aria-hidden="true">Copied</span>
                         <button type="button" class="uuid-copy" aria-label="Copy UUID {{ loop.index }} to clipboard">
                             <svg class="icon-copy" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M9 9h10v10H9zM6 15H4V4h10v2"/></svg>
                             <svg class="icon-check" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 12l5 5L20 6"/></svg>
