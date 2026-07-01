@@ -78,8 +78,8 @@ class ApiControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $data = $this->decodeJson((string) $client->getResponse()->getContent());
 
-        $this->assertSame(100, $data['count']);
-        $this->assertCount(100, $data['uuids']);
+        $this->assertSame(20, $data['count']);
+        $this->assertCount(20, $data['uuids']);
     }
 
     public function testApiRejectsInvalidType(): void

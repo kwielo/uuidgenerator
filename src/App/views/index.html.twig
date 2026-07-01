@@ -19,10 +19,7 @@
                     <h1 class="toolbar__title">
                         <a href="/">
                             <svg class="toolbar__logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24" aria-hidden="true" focusable="false">
-                                <line x1="4" y1="9" x2="20" y2="9"/>
-                                <line x1="4" y1="15" x2="20" y2="15"/>
-                                <line x1="10" y1="3" x2="8" y2="21"/>
-                                <line x1="16" y1="3" x2="14" y2="21"/>
+                                <polygon points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5"/>
                             </svg>
                             uuidgen
                         </a>
@@ -42,11 +39,6 @@
                     </button>
                 </div>
             </nav>
-
-            <div class="intro">
-                <h2>{{ type|capitalize }} generator</h2>
-                <p>Generate {{ type }} UUIDs — pick a version and count, then copy.</p>
-            </div>
 
             <div class="controls">
                 <div class="controls__field controls__field--version">
