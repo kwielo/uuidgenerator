@@ -20,9 +20,8 @@ class UuidRepositoryTest extends TestCase
     {
         $types = $this->repository->getTypes();
 
-        $this->assertContains('uuid1', $types);
-        $this->assertContains('uuid4', $types);
-        $this->assertCount(2, $types);
+        $this->assertSame(['uuid1', 'uuid3', 'uuid4', 'uuid5', 'uuid6', 'uuid7'], $types);
+        $this->assertCount(6, $types);
     }
 
     public function testGetUuid1ReturnsValidUuid(): void
@@ -33,12 +32,44 @@ class UuidRepositoryTest extends TestCase
         $this->assertSame(1, Uuid::fromString($uuid)->getVersion());
     }
 
+    public function testGetUuid3ReturnsValidUuid(): void
+    {
+        $uuid = $this->repository->getUuid3();
+
+        $this->assertTrue(Uuid::isValid($uuid));
+        $this->assertSame(3, Uuid::fromString($uuid)->getVersion());
+    }
+
     public function testGetUuid4ReturnsValidUuid(): void
     {
         $uuid = $this->repository->getUuid4();
 
         $this->assertTrue(Uuid::isValid($uuid));
         $this->assertSame(4, Uuid::fromString($uuid)->getVersion());
+    }
+
+    public function testGetUuid5ReturnsValidUuid(): void
+    {
+        $uuid = $this->repository->getUuid5();
+
+        $this->assertTrue(Uuid::isValid($uuid));
+        $this->assertSame(5, Uuid::fromString($uuid)->getVersion());
+    }
+
+    public function testGetUuid6ReturnsValidUuid(): void
+    {
+        $uuid = $this->repository->getUuid6();
+
+        $this->assertTrue(Uuid::isValid($uuid));
+        $this->assertSame(6, Uuid::fromString($uuid)->getVersion());
+    }
+
+    public function testGetUuid7ReturnsValidUuid(): void
+    {
+        $uuid = $this->repository->getUuid7();
+
+        $this->assertTrue(Uuid::isValid($uuid));
+        $this->assertSame(7, Uuid::fromString($uuid)->getVersion());
     }
 
     public function testGetUuidDelegatesToCorrectMethod(): void
@@ -50,6 +81,10 @@ class UuidRepositoryTest extends TestCase
         $uuid4 = $this->repository->getUuid('uuid4');
         $this->assertTrue(Uuid::isValid($uuid4));
         $this->assertSame(4, Uuid::fromString($uuid4)->getVersion());
+
+        $uuid7 = $this->repository->getUuid('uuid7');
+        $this->assertTrue(Uuid::isValid($uuid7));
+        $this->assertSame(7, Uuid::fromString($uuid7)->getVersion());
     }
 
     public function testGetUuidThrowsOnInvalidType(): void

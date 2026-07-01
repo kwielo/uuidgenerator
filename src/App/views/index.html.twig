@@ -5,103 +5,71 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ type|capitalize }} generator</title>
         <link rel="shortcut icon" href="/media/favicon.png" />
-        <link rel="stylesheet" type="text/css" href="/media/spectre.min.css">
-        <link rel="stylesheet" type="text/css" href="/media/spectre-exp.min.css">
-        <link rel="stylesheet" type="text/css" href="/media/spectre-icons.min.css">
-
+        <link rel="stylesheet" type="text/css" href="/media/app.css">
     </head>
     <body>
-        <div class="container grid-xs" style="margin-bottom: 50px;">
-            <div class="columns m-2">
-                <div class="column col-12">
-                    <h2 class="text-primary centered d-inline text-center"><a href="/">{{ type|capitalize }} generator</a></h2>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column col-12">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <select class="form-select type-input">
-                                {% for uuid_type in uuid_types %}
-                                    <option value="{{uuid_type}}" {% if uuid_type == type %}selected="selected"{% endif %}>{{ uuid_type }}</option>
-                                {% endfor %}
-                            </select>
-                            <input style="margin-top:0.4em!important;" class="slider tooltip bulk-input px-1" type="range" min="1" max="15" value="{{ bulk }}"
-                                oninput="this.setAttribute('value', this.value);">
-                            <button class="btn bulk-submit"><i class="icon icon-refresh"></i></button>
-                        </div>
-                    </div>
-                </div>
+        <div class="page">
+            <div class="header">
+                <h1><a href="/">{{ type|capitalize }} generator</a></h1>
             </div>
 
-            <div class="columns mt-2">
-                <div class="column col-12">
-                    <div class="form-group">
-                        <div class="input-group uuid-line mt-2">
-                            <span class="input-group-addon"># 0</span>
-                            <input class="form-input uuid-input text-center" type="text" value="{{ nil }}" />
-                            <button class="btn btn-primary input-group-btn uuid-copy"><i class="icon icon-plus"></i></button>
-                        </div>
-                        {% for uuid in uuids %}
-                        <div class="input-group uuid-line mt-2">
-                            <span class="input-group-addon"># {{ loop.index }}</span>
-                            <input class="form-input uuid-input text-center" type="text" value="{{ uuid }}" />
-                            <button class="btn btn-primary input-group-btn uuid-copy"><i class="icon icon-plus"></i></button>
-                        </div>
-                        {% endfor %}
-                    </div>
+            <div class="controls">
+                <label class="sr-only" for="type-input">UUID type</label>
+                <select id="type-input" class="type-input" aria-label="UUID type">
+                    {% for uuid_type in uuid_types %}
+                        <option value="{{ uuid_type }}" {% if uuid_type == type %}selected="selected"{% endif %}>{{ uuid_type }}</option>
+                    {% endfor %}
+                </select>
+
+                <label class="sr-only" for="bulk-input">Number of UUIDs</label>
+                <input id="bulk-input" class="bulk-input" type="range" min="1" max="{{ constant('App\\Repository\\UuidRepository::MAX_BULK') }}" value="{{ bulk }}"
+                    aria-label="Number of UUIDs to generate" oninput="this.setAttribute('value', this.value);">
+
+                <button type="button" class="bulk-submit submit" aria-label="Generate UUIDs">Generate</button>
+            </div>
+
+            <div class="results">
+                <div class="uuid-line">
+                    <span class="uuid-index" aria-hidden="true">#0</span>
+                    <input class="uuid-input" type="text" value="{{ nil }}" readonly aria-label="Nil UUID" />
+                    <button type="button" class="uuid-copy" aria-label="Copy nil UUID to clipboard">
+                        <svg class="icon-copy" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M9 9h10v10H9zM6 15H4V4h10v2"/></svg>
+                        <svg class="icon-check" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 12l5 5L20 6"/></svg>
+                    </button>
                 </div>
+                {% for uuid in uuids %}
+                <div class="uuid-line">
+                    <span class="uuid-index" aria-hidden="true">#{{ loop.index }}</span>
+                    <input class="uuid-input" type="text" value="{{ uuid }}" readonly aria-label="Generated UUID {{ loop.index }}" />
+                    <button type="button" class="uuid-copy" aria-label="Copy UUID {{ loop.index }} to clipboard">
+                        <svg class="icon-copy" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M9 9h10v10H9zM6 15H4V4h10v2"/></svg>
+                        <svg class="icon-check" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M4 12l5 5L20 6"/></svg>
+                    </button>
+                </div>
+                {% endfor %}
+                <p class="copy-feedback sr-only" role="status" aria-live="polite"></p>
             </div>
         </div>
-        <div class="footer fixed d-block text-center p-1" style="bottom: 0; width: 100%; font-size: 0.8em; background-color: #fff; z-index: 100;">
-            coded with <span class="text-error">&hearts;</span> by <a href="https://wielo.co">wielo.co</a>
+
+        <div class="footer">
+            coded with <span aria-hidden="true">&hearts;</span> by <a href="https://wielo.co">wielo.co</a>
         </div>
-    <script type="text/javascript">
-        const lines = document.querySelectorAll('.uuid-line');
-        lines.forEach(function(line) {
-            line.querySelector('.uuid-input').addEventListener('click', function() {
-                line.querySelector('.uuid-input').select();
-            });
-            line.querySelector('.uuid-copy').addEventListener('click', function() {
-                const input = line.querySelector('.uuid-input');
-                input.select();
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(input.value);
-                } else {
-                    document.execCommand('copy');
-                }
 
-                const classList = line.querySelector('.uuid-copy').classList;
-                classList.remove('btn-primary')
-                classList.add('btn-success');
-                const iconClassList = line.querySelector('.icon').classList;
-                iconClassList.remove('icon-plus');
-                iconClassList.add('icon-check');
-            })
-        })
-        document.querySelector('.bulk-submit').addEventListener('click', function() {
-            const bulk = document.querySelector('.bulk-input').value;
-            const type = document.querySelector('.type-input').value;
-            const l = window.location;
-            const newUrl = l.protocol + '//' + l.host + '/' + bulk + '/' + type;
-            window.location.assign(newUrl);
-
-        })
-    </script>
-    <!-- Matomo -->
-    <script type="text/javascript">
-      var _paq = _paq || [];
-      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function() {
-        var u="//stats25.mydevil.net/";
-        _paq.push(['setTrackerUrl', u+'piwik.php']);
-        _paq.push(['setSiteId', '32']);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-      })();
-    </script>
-    <!-- End Matomo Code -->
+        <script type="text/javascript" src="/media/app.js"></script>
+        <!-- Matomo -->
+        <script type="text/javascript">
+          var _paq = _paq || [];
+          /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u="//stats25.mydevil.net/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', '32']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
+        </script>
+        <!-- End Matomo Code -->
     </body>
 </html>

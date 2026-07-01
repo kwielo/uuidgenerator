@@ -8,13 +8,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class IndexController extends AbstractController
 {
-    private const MAX_BULK = 100;
-
     public function __construct(private readonly UuidRepository $uuidRepository) {}
 
     public function index(int $bulk = 1, string $type = 'uuid4'): Response
     {
-        $bulk = max(1, min($bulk, self::MAX_BULK));
+        $bulk = max(1, min($bulk, UuidRepository::MAX_BULK));
 
         $uuids = [];
         for ($i = 0; $i < $bulk; $i++) {
