@@ -1,3 +1,4 @@
+**/.DS_Store
 .zed
 /vendor/
 /var/
@@ -5,3 +6,4 @@
 /.env.local.php
 /.env.*.local
 .php-cs-fixer.cache
+.phpunit.result.cache
