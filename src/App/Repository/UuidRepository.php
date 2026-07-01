@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class UuidRepository
 {
-    public const MAX_BULK = 100;
+    public const MAX_BULK = 20;
 
     private const UUID_TYPES = [
         'uuid1',

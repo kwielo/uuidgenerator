@@ -55,8 +55,8 @@ class IndexControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/200/uuid4');
 
         $this->assertResponseIsSuccessful();
-        // Capped to 100 + 1 nil = 101
-        $this->assertCount(101, $crawler->filter('.uuid-line'));
+        // Capped to 20 + 1 nil = 21
+        $this->assertCount(21, $crawler->filter('.uuid-line'));
     }
 
     public function testIndexPageContainsNilUuid(): void
