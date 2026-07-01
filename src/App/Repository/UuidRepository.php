@@ -36,7 +36,7 @@ class UuidRepository
             'uuid1' => $this->getUuid1(),
             'uuid4' => $this->getUuid4(),
             default => throw new BadRequestHttpException(
-                sprintf('Invalid parameter "type" "%s" for UuidRepository::getUuid', $type)
+                sprintf('Invalid parameter "type" "%s" for UuidRepository::getUuid', $type),
             ),
         };
     }
