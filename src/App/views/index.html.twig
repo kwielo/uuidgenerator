@@ -49,19 +49,25 @@
             </div>
 
             <div class="controls">
-                <div class="controls__field">
-                    <label for="type-input">Version</label>
-                    <select id="type-input" class="type-input" aria-label="UUID type">
+                <div class="controls__field controls__field--version">
+                    <label id="version-label">Version</label>
+                    <div class="type-input" role="group" aria-label="UUID version" aria-labelledby="version-label">
                         {% for uuid_type in uuid_types %}
-                            <option value="{{ uuid_type }}" {% if uuid_type == type %}selected="selected"{% endif %}>{{ uuid_type }}</option>
+                            {% set version_label = uuid_type|replace({'uuid': 'v'}) %}
+                            <button
+                                type="button"
+                                class="type-input__button{% if uuid_type == type %} is-active{% endif %}"
+                                data-type="{{ uuid_type }}"
+                                aria-pressed="{{ uuid_type == type ? 'true' : 'false' }}"
+                            >{{ version_label }}</button>
                         {% endfor %}
-                    </select>
+                    </div>
                 </div>
                 <div class="controls__field controls__range">
                     <label for="bulk-input">Count</label>
                     <div class="controls__range-row">
                         <input id="bulk-input" class="bulk-input" type="range" min="1" max="{{ constant('App\\Repository\\UuidRepository::MAX_BULK') }}" value="{{ bulk }}" aria-label="Number of UUIDs to generate">
-                        <span class="bulk-value">{{ bulk }}</span>
+                        <span class="bulk-value">{{ bulk == 1 ? '1 ID' : bulk ~ ' IDs' }}</span>
                     </div>
                 </div>
                 <button type="button" class="btn btn--primary bulk-submit" aria-label="Generate UUIDs">Generate</button>
