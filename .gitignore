@@ -5,5 +5,5 @@
 /.env.local
 /.env.local.php
 /.env.*.local
-.php-cs-fixer.cache
-.phpunit.result.cache
+*.cache
+
